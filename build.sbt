@@ -1,10 +1,12 @@
+import bintray.Keys._
+
 sbtPlugin := true
 
 organization := "com.bicou.sbt"
 
 name := "sbt-hbs"
 
-version := "0.0.1-SNAPSHOT"
+version := "0.0.1"
 
 scalaVersion := "2.10.4"
 
@@ -19,6 +21,12 @@ resolvers ++= Seq(
 addSbtPlugin("com.typesafe.sbt" %% "sbt-js-engine" % "1.0.2")
 
 publishMavenStyle := false
+
+seq(bintraySettings:_*)
+
+repository in bintray := "sbt-plugins"
+
+bintrayOrganization in bintray := None
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
@@ -35,11 +43,6 @@ pomExtra := (
     </developer>
   </developers>
 )
-
-publishTo := {
-  if (isSnapshot.value) Some(Classpaths.sbtPluginSnapshots)
-  else Some(Classpaths.sbtPluginReleases)
-}
 
 scriptedSettings
 
