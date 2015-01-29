@@ -4,7 +4,9 @@
 To use this plugin use the addSbtPlugin command within your project's `plugins.sbt` file:
 
 ```scala
-addSbtPlugin("com.bicou.sbt" % "sbt-hbs" % "0.0.1")
+resolvers += Resolver.sbtPluginRepo("releases")
+
+addSbtPlugin("com.bicou.sbt" % "sbt-hbs" % "1.0.1")
 ```
 
 Your project's build file also needs to enable sbt-web plugins. For example with `build.sbt`:
