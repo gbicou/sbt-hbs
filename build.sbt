@@ -6,9 +6,13 @@ organization := "com.bicou.sbt"
 
 name := "sbt-hbs"
 
-version := "0.0.1"
+version := "0.0.2-SNAPSHOT"
 
 scalaVersion := "2.10.4"
+
+libraryDependencies ++= Seq(
+  "org.webjars" % "mkdirp" % "0.5.0"
+)
 
 resolvers ++= Seq(
   "Typesafe Releases Repository" at "http://repo.typesafe.com/typesafe/releases/",
