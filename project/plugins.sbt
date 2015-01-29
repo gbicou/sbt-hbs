@@ -1,6 +1,8 @@
-resolvers += Resolver.url("bintray-sbt-plugin-releases", url("https://dl.bintray.com/content/sbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
+resolvers += Resolver.sbtPluginRepo("releases")
 
-libraryDependencies += "org.scala-sbt" % "scripted-plugin" % sbtVersion.value
+libraryDependencies ++= Seq(
+  "org.scala-sbt" % "scripted-plugin" % sbtVersion.value
+)
 
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.2")
 
