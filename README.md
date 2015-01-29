@@ -55,6 +55,8 @@ The following sbt code illustrates how to generate templates with AMD wrapper
 HbsKeys.amd := true
 ```
 
+Browse [play-rjs-coffee-hbs](https://github.com/bicouy0/play-rjs-coffee-hbs) repository to see usage with play framework.
+
 License
 =======
 This code is licensed under the [MIT License].
