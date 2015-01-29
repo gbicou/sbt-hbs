@@ -20,7 +20,7 @@ addSbtPlugin("com.typesafe.sbt" %% "sbt-js-engine" % "1.0.2")
 
 publishMavenStyle := false
 
-bintraySettings
+seq(bintraySettings:_*)
 
 repository in bintray := "sbt-plugins"
 
