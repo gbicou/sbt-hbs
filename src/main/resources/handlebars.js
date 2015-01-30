@@ -32,13 +32,16 @@
         if (e) throw e;
     }    
 
+    var endsep = new RegExp(path.sep + '+$');
+
     sourceFileMappings.forEach(function (sourceFileMapping) {
 
       var input = sourceFileMapping[0];
+      var name  = sourceFileMapping[1];
+      var base  = input.replace(name, '');
       var extension = path.extname(input);
-      var extre = new RegExp('\\' + extension + '$');
-      var outputFile = sourceFileMapping[1].replace(extre, ".js");
-      var output = path.join(target, outputFile);
+      var extend = new RegExp(extension.replace('.', '\\.') + '$');
+      var output = path.join(target, name.replace(extend, '.js'));
 
       mkdirp(path.dirname(output), function (e) {
         throwIfErr(e);
@@ -53,8 +56,8 @@
           min: options.min,
           namespace: options.namespace,
           simple: options.simple,
-          root: options.root,
-          partial: false,
+          root: path.join(base, options.root).replace(endsep, ''),
+          partial: path.basename(input).match(/^_/),
           data: options.data,
           extension: extension.substr(1),
           bom: options.bom,
