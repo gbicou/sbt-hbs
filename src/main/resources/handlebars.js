@@ -8,7 +8,7 @@
         fs = require("fs"),
         mkdirp = require("mkdirp"),
         path = require("path"),
-        precompiler = require("handlebars/lib/precompiler");
+        precompiler = require("handlebars");
 
     var SOURCE_FILE_MAPPINGS_ARG = 2;
     var TARGET_ARG = 3;
