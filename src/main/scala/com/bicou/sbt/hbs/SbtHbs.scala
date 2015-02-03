@@ -79,7 +79,7 @@ object SbtHbs extends AutoPlugin {
       inConfig(TestAssets)(hbsUnscopedSettings) ++
       Seq(
         moduleName := "hbs",
-        shellFile := getClass.getClassLoader.getResource("handlebars.js"),
+        shellFile := getClass.getClassLoader.getResource("handlebars-shell.js"),
 
         taskMessage in Assets := "Handlebars compiling",
         taskMessage in TestAssets := "Handlebars test compiling"
