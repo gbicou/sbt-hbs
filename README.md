@@ -9,7 +9,7 @@ To use this plugin use the addSbtPlugin command within your project's `plugins.s
 ```scala
 resolvers += Resolver.sbtPluginRepo("releases")
 
-addSbtPlugin("com.bicou.sbt" % "sbt-hbs" % "1.0.3")
+addSbtPlugin("com.bicou.sbt" % "sbt-hbs" % "1.0.4")
 ```
 
 Your project's build file also needs to enable sbt-web plugins. For example with `build.sbt`:
@@ -41,7 +41,6 @@ Option           | Description                                                  
 `amd`            | When set, generates JavaScript with the [AMD wrapper]                  | `false`
 `commonjs`       | Exports CommonJS style, path to Handlebars module                      | `""`
 `handlebarPath`  | Path to handlebar.js (only valid for amd-style)                        | `""`
-`min`            | Minimize output                                                        | `false`
 `known`          | Known helpers                                                          | `[]`
 `knownOnly`      | Known helpers only                                                     | `false`
 `namespace`      | Template namespace                                                     | `"Handlebars.templates"`

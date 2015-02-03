@@ -14,7 +14,6 @@ object Import {
     val amd = SettingKey[Boolean]("hbs-amd", "Exports amd style (require.js)")
     val commonjs = SettingKey[String]("hbs-commonjs", "Exports CommonJS style, path to Handlebars module")
     val handlebarPath = SettingKey[String]("hbs-handlebarPath", "Path to handlebar.js (only valid for amd-style)")
-    val min = SettingKey[Boolean]("hbs-min", "Minimize output")
     val known = SettingKey[Seq[String]]("hbs-known", "Known helpers")
     val knownOnly = SettingKey[Boolean]("hbs-knownOnly", "Known helpers only")
     val namespace = SettingKey[String]("hbs-namespace", "Template namespace")
@@ -49,7 +48,6 @@ object SbtHbs extends AutoPlugin {
       "amd" -> JsBoolean(amd.value),
       "commonjs" -> JsString(commonjs.value),
       "handlebarPath" -> JsString(handlebarPath.value),
-      "min" -> JsBoolean(min.value),
       "known" -> JsArray(known.value.toList.map(JsString(_))),
       "knownOnly" -> JsBoolean(knownOnly.value),
       "namespace" -> JsString(namespace.value),
@@ -64,7 +62,6 @@ object SbtHbs extends AutoPlugin {
     amd := false,
     commonjs := "",
     handlebarPath := "",
-    min := false,
     known := Seq(),
     knownOnly := false,
     namespace := "Handlebars.templates",

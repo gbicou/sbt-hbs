@@ -8,8 +8,7 @@
         fs = require("fs"),
         mkdirp = require("mkdirp"),
         path = require("path"),
-        Handlebars = require("handlebars"),
-        uglify = require('uglify-js');
+        Handlebars = require("handlebars");
 
     var SOURCE_FILE_MAPPINGS_ARG = 2;
     var TARGET_ARG = 3;
@@ -123,10 +122,6 @@
             }
           }
           source = source.join('');
-
-          if (options.min) {
-            source = uglify.minify(source, {fromString: true}).code;
-          }
 
           fs.writeFileSync(output, source, 'utf8');
 
