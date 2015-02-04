@@ -59,13 +59,13 @@ HbsKeys.amd := true
 Usage
 -----
 
-Once configured, any `*.hbs` or `*.handlebars` files placed in `app/assets` will be compiled to JavaScript code in `target/web/public`, the handlebars name is build from file path, relative to `root` option.
+Once configured, any `*.hbs` or `*.handlebars` files placed in `src/main/assets` will be compiled to JavaScript code in `target/web/public`, the handlebars name is build from file path, relative to `root` option.
 
 For example the name of the template located in `app/assets/javascripts/templates/index.hbs` will be `javascripts/templates/index`, unless you set `HbsKeys.root := "javascripts/templates/"` then it will be `index` (it's the handlebars id, not the javascript path).
 
 If a file name begins with an underscore, it will be handled as a partial.
 
-Don't forget to include the handlebars runtime to your public javascripts, you can grab a copy in `node_modules/handlebars/dist/handlebars.runtime.js`.
+Don't forget to include the handlebars runtime via `"org.webjars" % "handlebars" % "2.0.0-1"` or by copying/linking in your public javascripts (`node_modules/handlebars/dist/handlebars.runtime.js` with npm).
 
 Example
 -------
