@@ -3,7 +3,7 @@ package com.bicou.sbt.hbs
 import sbt._
 import sbt.Keys._
 import com.typesafe.sbt.web._
-import com.typesafe.sbt.jse.SbtJsTask
+import com.typesafe.sbt.jse.{SbtJsEngine, SbtJsTask}
 import spray.json._
 
 object Import {
@@ -33,11 +33,11 @@ object SbtHbs extends AutoPlugin {
 
   val autoImport = Import
 
+  import autoImport.HbsKeys._
   import SbtWeb.autoImport._
   import WebKeys._
+  import SbtJsEngine.autoImport.JsEngineKeys._
   import SbtJsTask.autoImport.JsTaskKeys._
-  import autoImport.HbsKeys._
-  import com.typesafe.sbt.jse.JsEngineImport.JsEngineKeys._
 
   val hbsUnscopedSettings = Seq(
 
@@ -83,10 +83,7 @@ object SbtHbs extends AutoPlugin {
       )
   ) ++ SbtJsTask.addJsSourceFileTasks(hbs) ++ Seq(
     hbs in Assets := (hbs in Assets).dependsOn(nodeModules in Assets).value,
-    hbs in TestAssets := (hbs in TestAssets).dependsOn(nodeModules in TestAssets).value,
-
-    nodeModuleGenerators in Plugin <+= npmNodeModules in Assets,
-    nodeModuleDirectories in Plugin += baseDirectory.value / "node_modules"
+    hbs in TestAssets := (hbs in TestAssets).dependsOn(nodeModules in TestAssets).value
   )
 
 }
