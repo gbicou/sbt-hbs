@@ -66,7 +66,7 @@ object SbtHbs extends AutoPlugin {
     handlebarPath := "",
     known := Seq(),
     knownOnly := false,
-    namespace := "Handlebars.templates",
+    namespace := "",
     root := "",
     data := false,
     bom := false,

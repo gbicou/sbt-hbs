@@ -43,7 +43,7 @@ Option           | Description                                                  
 `handlebarPath`  | Path to handlebar.js (only valid for amd-style)                        | `""`
 `known`          | Known helpers                                                          | `[]`
 `knownOnly`      | Known helpers only                                                     | `false`
-`namespace`      | Template namespace                                                     | `"Handlebars.templates"`
+`namespace`      | Template namespace                                                     | `""`
 `root`           | Template root (base value that will be stripped from template names)   | `""`
 `data`           | Include data when compiling                                            | `false`
 `bom`            | Removes the BOM (Byte Order Mark) from the beginning of the templates  | `false`
