@@ -21,6 +21,7 @@ object Import {
     val data = SettingKey[Boolean]("hbs-data", "Include data when compiling")
     val bom = SettingKey[Boolean]("hbs-bom", "Removes the BOM (Byte Order Mark) from the beginning of the templates")
     val simple = SettingKey[Boolean]("hbs-simple", "Output template function only")
+    val map = SettingKey[Boolean]("hbs-map", "Generates source maps")
   }
 
 }
@@ -54,7 +55,8 @@ object SbtHbs extends AutoPlugin {
       "root" -> JsString(root.value),
       "data" -> JsBoolean(data.value),
       "bom" -> JsBoolean(bom.value),
-      "simple" -> JsBoolean(simple.value)
+      "simple" -> JsBoolean(simple.value),
+      "map" -> JsBoolean(map.value)
     ).toString()
   )
 
@@ -68,7 +70,8 @@ object SbtHbs extends AutoPlugin {
     root := "",
     data := false,
     bom := false,
-    simple := false
+    simple := false,
+    map := false
 
   ) ++ inTask(hbs)(
     SbtJsTask.jsTaskSpecificUnscopedSettings ++

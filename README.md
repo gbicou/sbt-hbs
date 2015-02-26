@@ -28,7 +28,7 @@ Or locally in your project with a `package.json` file:
 ```json
 {
   "devDependencies": {
-    "handlebars": "~2"
+    "handlebars": "^3.0.0"
   }
 }
 ```
@@ -48,6 +48,7 @@ Option           | Description                                                  
 `data`           | Include data when compiling                                            | `false`
 `bom`            | Removes the BOM (Byte Order Mark) from the beginning of the templates  | `false`
 `simple`         | Output template function only                                          | `false`
+`map`            | Generates source maps                                                  | `false`
 
 
 The following sbt code illustrates how to generate templates with AMD wrapper 
@@ -65,7 +66,7 @@ For example the name of the template located in `app/assets/javascripts/template
 
 If a file name begins with an underscore, it will be handled as a partial.
 
-Don't forget to include the handlebars runtime via `"org.webjars" % "handlebars" % "2.0.0-1"` or by copying/linking in your public javascripts (`node_modules/handlebars/dist/handlebars.runtime.js` with npm).
+Don't forget to include the handlebars runtime via `"org.webjars" % "handlebars" % "3.0.0-1"` or by copying/linking in your public javascripts (`node_modules/handlebars/dist/handlebars.runtime.js` with npm).
 
 Example
 -------

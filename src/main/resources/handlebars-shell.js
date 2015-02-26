@@ -8,7 +8,11 @@
         fs = require("fs"),
         mkdirp = require("mkdirp"),
         path = require("path"),
-        Handlebars = require("handlebars");
+        Handlebars = require("handlebars"),
+        SourceMap = require('handlebars/node_modules/source-map'),
+        SourceMapConsumer = SourceMap.SourceMapConsumer,
+        SourceNode = SourceMap.SourceNode
+        ;
 
     var SOURCE_FILE_MAPPINGS_ARG = 2;
     var TARGET_ARG = 3;
@@ -50,6 +54,9 @@
 
         try {
 
+          var mapFile = path.join(target, name.replace(extend, '.map'));
+          var mapName = path.basename(mapFile);
+
           var data = fs.readFileSync(input, 'utf8');
 
           if (options.bom && data.indexOf('\uFEFF') === 0) {
@@ -71,6 +78,10 @@
             knownHelpersOnly: options.knownOnly
           };
 
+          if (options.map) {
+            o.srcName = path.basename(input);
+          }
+
           if (options.data) {
             o.data = true;
           }
@@ -84,52 +95,77 @@
           }
           template = template.replace(extend, '');
 
-          var source = [];
+          var source = new SourceNode();
           if (!options.simple) {
             if (options.amd) {
-              source.push('define([\'' + options.handlebarPath + 'handlebars.runtime\'], function(Handlebars) {\n  Handlebars = Handlebars["default"];');
+              source.add('define([\'' + options.handlebarPath + 'handlebars.runtime\'], function(Handlebars) {\n  Handlebars = Handlebars["default"];');
             } else if (options.commonjs) {
-              source.push('var Handlebars = require("' + options.commonjs + '");');
+              source.add('var Handlebars = require("' + options.commonjs + '");');
             } else {
-              source.push('(function() {\n');
+              source.add('(function() {\n');
             }
-            source.push('  var template = Handlebars.template, templates = ');
-            source.push(options.namespace);
-            source.push(' = ');
-            source.push(options.namespace);
-            source.push(' || {};\n');
+            source.add('  var template = Handlebars.template, templates = ');
+            if (options.namespace) {
+              source.add(options.namespace);
+              source.add(' = ');
+              source.add(options.namespace);
+              source.add(' || ');
+            }
+            source.add('{};\n');
+          }
+
+          var precompiled = Handlebars.precompile(data, o);
+
+          if (options.map) {
+            var consumer = new SourceMapConsumer(precompiled.map);
+            precompiled = SourceNode.fromStringWithSourceMap(precompiled.code, consumer);
           }
 
           if (options.simple) {
-            source.push(Handlebars.precompile(data, o) + '\n');
+            source.add([precompiled, '\n']);
           } else if (partial) {
             if(options.amd) {
-              source.push('return ');
+              source.add('return ');
             }
-            source.push('Handlebars.partials[\'' + template + '\'] = template(' + Handlebars.precompile(data, o) + ');\n');
+            source.add(['Handlebars.partials[\'', template, '\'] = template(', precompiled, ');\n']);
           } else {
             if(options.amd) {
-              source.push('return ');
+              source.add('return ');
             }
-            source.push('templates[\'' + template + '\'] = template(' + Handlebars.precompile(data, o) + ');\n');
+            source.add(['templates[\'', template, '\'] = template(', precompiled, ');\n']);
           }
 
           if (!options.simple) {
             if (options.amd) {
-              source.push('});');
+              source.add('});');
             } else if (!options.commonjs) {
-              source.push('})();');
+              source.add('})();');
             }
           }
-          source = source.join('');
+
+          if (options.map) {
+            source.add('\n//# sourceMappingURL=' + mapName + '\n');
+          }
+
+          source = source.toStringWithSourceMap();
+          source.map = source.map + '';
+
+          var filesWritten = [];
+
+          if (options.map) {
+            fs.writeFileSync(mapFile, source.map, 'utf8');
+            filesWritten.push(mapFile);
+          }
+          source = source.code;
 
           fs.writeFileSync(output, source, 'utf8');
+          filesWritten.push(output);
 
           results.push({
               source: input,
               result: {
                 filesRead: [input],
-                filesWritten: [output]
+                filesWritten: filesWritten
               }
           });
 
